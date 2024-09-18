@@ -1,15 +1,15 @@
 ############
 #Submod info
 ############
-#TODO: Reminder to make announcement for Update 0.3.0 and overhaul to framework
+#TODO: Reminder to start moving to the new framework of MAS update
 #Submod made by Yun (Discord:yun_seo)(Reddit:u/Yun-Seo)
 #Register
 init -990 python:
     store.mas_submod_utils.Submod(
         author="Yun",
         name="Open World",
-        description="A submod that allows you to take Monika on an adventure in her expanding world of DDLC.",
-        version="0.3.0",
+        description="A submod that allows you to take Monika to DDLC places and new ones.",
+        version="0.2.0",
     )
 
 ######################
@@ -29,7 +29,6 @@ init -989 python:
 ##########
 #Stores the current background before entering the Open World mod
 #TODO: If a person changes location, update the button
-#Probably won't cause lazy and small nitpicky
 default RTMAS = _OW_save_loc()
 
 
@@ -48,10 +47,11 @@ default c_name = "???"
 
 default OW_talk_topics = None
 
-#TODO: Make text files and ability to delete after using the reset button
+#Will Test at another time
 #default OW_corrupt = glitchtext(60)
 #default OW_file = mangleFile()
 
+#TODO: Make an option to reenable persistent + delete secrets
 #TODO: REWORK THE INTRODUCTION AND PERSISTENT 
 #files in the future
 #default persistent.OW_splash_screen_warning = False
@@ -73,11 +73,9 @@ default persistent.OW_first_interference = False
 #Test will be replaced later and credited
 #Won't show in Beta or Future releases
 #No need to add images from DDLC, they're in the game somewhere
-#Test is used in Dev files, don't delete - Yun
 image bg TEST = "Submods/OpenWorld/images/test.png"
 # Destroyed_Doki_Hall was just used in the demostration only (BETA comment)
 image bg Destroyed_Doki_Hall = "Submods/OpenWorld/images/Destroyed_Doki_Hall.jpg"
-
 image bg spaceroom_alt = "Submods/OpenWorld/images/XQ587jv.png"
 image bg school gate = "Submods/OpenWorld/images/school_gate_2.jpg"
 image music_screen = "Submods/OpenWorld/images/music_screen.png"
@@ -106,56 +104,6 @@ define audio.alone_time = "Submods/OpenWorld/music/alonetime.ogg"
 default OW_current_label = mas_submod_utils.current_label
 default OW_last_label = mas_submod_utils.last_label
     
-
-init -900 python in OW_ics:
-    import os
-    #This website should help https://string-o-matic.com/sha256
-
-    ############
-    #First Event
-    ############
-    #CG Folder
-    mso_cg_folder = os.path.normcase(
-        renpy.config.basedir + "/game/Submods/OpenWorld/images/first_special"
-    )
-
-    #Image Checksums
-    #Base64 + Sha-256
-    so_1 = (
-        "cb74fe15834a35115b473b55b39c290e4dbe97891b0b0e85d8cb8ee2ea24b65a"
-    )
-
-    so_2 = (
-        "365ffa44c09f83b7b15ec9af3d480dec463bf5cb073129d3ae0e1dc651a2e6be"
-    )
-
-    so_3 = (
-        "b0469962e0178c8179c302f7d0596d3f734735c334a64dfb57cf413ff8462da2"
-    )
-
-    so_4 = (
-        "8f215c94b26d9809de80353b0f9a83b661dd4ef3145b189c8a9e407e5ab40f50"
-    )
-    #From MAS code
-    # cg dict to map filenames to checksums and real filenames
-    # key: filename of b64 encode
-    # value: tuple:
-    #   [0] - filename to save the image as
-    #   [1] - checksum for that image
-    SE1_map =
-    {
-        "sowmcg1": ("SOWM1.png", so_1)
-        "sowmcg2": ("SOWM2.png", so_2)
-        "sowmcg3": ("SOWM3.png", so_3)
-        "sowmcg4": ("SOWM4.png", so_4)
-    }
-
-
-
-
-
-
-
 #init python:
     #OW_script_path = fom_getScriptFile(fallback = "game/submods/Open World/")
 init 5 python:
@@ -174,15 +122,12 @@ init 5 python:
         renpy.call_screen("OW_MENU")
 
     def OW_check_hub():
-        hub_path = renpy.config.basedir + "/game/Submods/OpenWorld/Hub (DEV).rpy"
+        hub_path = renpy.config.basedir + "/game/Submods/OpenWorld/Hub.rpy"
         itExist = os.path.isfile(hub_path)
         if itExist == True:
             pass
         else:
             renpy.call_screen("dialog", message="Dev Only", ok_action=Jump("mas_extra_menu_close"))
-
-#TODO: Make an option to reenable persistent + delete secrets
-#Update TODO: Revamp the reset
 
     def OW_hard_reset():
         persistent.OW_has_seen_fake_bsod = False
@@ -213,16 +158,16 @@ init 5 python:
 #Add more lines eventually
     def OW_random_talk():
         O_temp_talk = [
-            _("What should we check out?"),
-            _("I'd love for you to be with me right now, ehehe~"),
-            _("Did you want to ask me something?"),
-            _("What should we do?"),
-            _("Did you inspect everything thoroughly? Ahaha~"),
+            _("我们要看看什么？"),
+            _("你能和我在一起真好，欸嘿嘿~"),
+            _("我们现在要干嘛？"),
+            _("我们去做什么？"),
+            _("你把每一件东西都仔细检查了吗？哈哈哈~"),
             #"Ah, did you open a menu? Sorry, I was too busy admiring what you've done for me.",
-            _("It feels a bit weird snooping into their homes but who's here to stop us? Ehehe~"),
-            _("Going to all these places make feel uneasy, but I feel safe knowing you're with me."),
-            _("I wonder what secrets our friends were hiding... PG-13 secrets of course. Ahaha..."),
-            _("Wouldn't it be nice to just hold hands and walk around my world... after we find out what's causing these glitches that is."),
+            _("偷偷溜进他们的房间是有些奇怪，但谁又会来阻止我们呢？哎嘿嘿~"),
+            _("去这些地方让我感到不自在，但当我想起你陪着我时，我很有安全感。"),
+            _("我好奇我们的朋友都藏着些什么秘密...是关于PG-13的吗？哈哈哈~"),
+            _("难道我们手牵着手在我的世界里漫步不好嘛？...如果我们还可以去找出这些错误的原因呢？"),
 
         ]
         O_temp_talk = renpy.random.choice(O_temp_talk)
@@ -307,7 +252,7 @@ screen OW_monika_hug():
             
 
 #INFO FOR BUTTON IN EXTRA's SECTION
-#fixing it ----- Working as of 7/13/23
+#TODO: fixing it ----- Working as of 7/13/23
 #TODO: Try to fix it another way
 init 10000:
     screen mas_extramenu_area():
@@ -375,11 +320,11 @@ screen OW_MENU():
             ypos 534
             textbutton ("Open World"): 
                 xysize(120, None) 
-                action Jump("OW_Entry_Question") hover_sound gui.hover_sound
-            textbutton ("Reset Submod"):
+                action Jump("OW_warning") hover_sound gui.hover_sound
+            textbutton ("Reset Persistent"):
                 xysize(120,None)
-                action Jump("OW_Reset_Submod") hover_sound gui.hover_sound
-            textbutton ("GitHub") action Jump("OW_Github") hover_sound gui.hover_sound
+                action Jump("OW_reset_persistent") hover_sound gui.hover_sound
+            textbutton ("GitHub") action Jump("OW_github") hover_sound gui.hover_sound
             textbutton ("Return") action Jump("mas_extra_menu_close") hover_sound gui.hover_sound
     vbox: 
         xpos 1166
@@ -397,7 +342,7 @@ label view_OW:
     return
 
 #TODO: Silence Noises Submod as well
-label OW_Entry_Question:
+label OW_warning:
     m 2wta "You want to show me something?{nw}"
     $ _history_list.pop()
     menu:
@@ -429,7 +374,7 @@ label OW_return_question:
     menu:
         m "Do you want to return to the [RTMAS]?{fast}"
         "Yes":
-            call OW_Go_Back_To_MAS
+            call OW_Go_Back_To_Classroom
         "No":
             return
 
@@ -443,11 +388,11 @@ label OW_location_set:
 #######################
 #Reset persistent label
 #######################
-label OW_Reset_Submod:
-    narrator "Reset OpenWorld{nw}"
+label OW_reset_persistent:
+    narrator "Reset Persistent{nw}"
     $ _history_list.pop()
     menu:
-        narrator "Reset OpenWorld?{fast}"
+        narrator "Reset Persistent?{fast}"
         "Yes":
             menu:
                 "Hard Reset":
@@ -457,7 +402,7 @@ label OW_Reset_Submod:
                     $ OW_soft_reset()
                     jump ch30_loop
                 "Nevermind":
-                    jump OW_Reset_Submod
+                    jump OW_reset_persistent
         "No":
             jump ch30_loop
 
@@ -465,7 +410,7 @@ label OW_Reset_Submod:
 #GitHub Link
 ############
 
-label OW_Github:
+label OW_github:
     m "Okay, give me a second."
     $ renpy.run(OpenURL("https://github.com/Yun-Seo1/Open-World"))
     m "There you go [player]."
@@ -496,7 +441,7 @@ label OW_go_to_hub:
 ###############
 #Returns to MAS
 ###############
-label OW_Go_Back_To_MAS:
+label OW_Go_Back_To_Classroom:
     m "Oh, Okay. Gosh, it was such an amazing day to see everything again."
     m "It felt nice to leave {i}our{/i} home. I hope you take me out again sometime."
     m "Let's go back [mas_get_player_nickname()], ehehe~"
@@ -639,8 +584,6 @@ label OW_first_interference:
     $ persistent.OW_first_interference = True
     $ OW_play_song(persistent.OW_current_track, fadein = 1.0)
     return
-
-
 
 
 

@@ -161,13 +161,13 @@ label OW_outside_mc_house_interaction:
             if (persistent.OW_has_seen_residential_glitch == False):
                 action Jump("OW_residential_glitch") hover_sound gui.hover_sound
             action Jump("OW_go_to_residential") hover_sound gui.hover_sound
-        textbutton ("Street"):
+        textbutton ("[OW_natsuki]"):
             style "hkb_button"
             style_prefix "hkb"
             xysize(120,None)
             xpos 0
             ypos 362
-            action Jump("OW_Street_From_MC_House") hover_sound gui.hover_sound
+            action Jump("OW_monika_house_beta") hover_sound gui.hover_sound
 
 ####################
 #Residential fakeout
@@ -261,10 +261,7 @@ label OW_go_to_residential:
         "No":
             call screen OWAWM_outside()
 
-label OW_Street_From_MC_House:
-    
 
-'''
 label OW_monika_house_beta:
     show screen tear(20, 0.1, 0.1, 0, 40)
     play sound "sfx/s_kill_glitch1.ogg"
@@ -294,4 +291,4 @@ label OW_monika_house_beta:
     extend "something new is being adding to my world."
     m "Let's check other places instead, okay? Ehehe~"
     call screen OWAWM_outside
-'''
+
